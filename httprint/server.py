@@ -14,6 +14,9 @@ class _Handler(server.BaseHTTPRequestHandler):
 	def do_GET(self):
 		return _main_server.get(self)
 
+	def log_message(self, format, *args):
+		return
+
 
 
 class _Server(threading.Thread):
