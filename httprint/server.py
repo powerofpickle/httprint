@@ -4,7 +4,7 @@ import time
 from os import path
 import json
 
-main_server = None
+_main_server = None
 
 class _Handler(server.BaseHTTPRequestHandler):
 
@@ -12,7 +12,7 @@ class _Handler(server.BaseHTTPRequestHandler):
 		super().__init__(request, client_address, server)
 	
 	def do_GET(self):
-		return main_server.get(self)
+		return _main_server.get(self)
 
 
 
@@ -32,21 +32,27 @@ class _Server(threading.Thread):
 
 	def ajax(self, handler):
 		timestamp = float(handler.path.split('/')[-1])
-		print(timestamp)
 
 		to_send = None
 
 		log_len = len(self.log)
+		min_i = log_len - 2000
 
-		for i in range(log_len - 1, -1:
-			if self.log[i]['timestamp'] <= timestamp:
+		for i in range(log_len - 1, -1, -1):
+#print(self.log[i]['timestamp'])
+#			print("vs")
+#			print(timestamp)
+			if self.log[i]['timestamp'] <= timestamp or i < min_i:
 				to_send = self.log[(i+1):log_len]
 				break
 
-		if log_len > 0:
-			pass
+		if to_send == None:
+			to_send = self.log[0:log_len]
 
-		obj = {'lastTimestamp': 
+		if len(to_send) > 0:
+			timestamp = to_send[-1]['timestamp']
+
+		obj = {'lastTimestamp': timestamp, 'log': to_send}
 
 		handler.send_response(200)
 		handler.send_header('Content-type', 'text/html')
@@ -62,8 +68,8 @@ class _Server(threading.Thread):
 		self.log.append({'timestamp': time.time(), 'id': id, 'text': text})
 
 	def run(self):
-		global main_server
-		main_server = self
+		global _main_server
+		_main_server = self
 		addr = ('', self.port)
 		self.httpd = server.HTTPServer(addr, _Handler)
 		self.httpd.serve_forever()

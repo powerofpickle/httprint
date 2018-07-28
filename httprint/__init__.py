@@ -13,13 +13,7 @@ def init(port=8000, is_host=True):
 	old_write = sys.stdout.write
 
 	def new_write(text):
-		"""
-		data = parse.urlencode({'id': 0, 'text': text}).encode()
-
-		req = request.Request(f"http://localhost:{port}", data=data)
-		resp = request.urlopen(req)
-		"""
-
+		server.append(text)
 		old_write(text)
 		
 	sys.stdout.write = new_write
