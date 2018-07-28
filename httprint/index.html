@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<script>
+			var lastTimestamp = 0;
+			function ajax(){
+				var xhr = new XMLHttpRequest();
+				xhr.onreadystatechange = function(){
+					if(xhr.readyState == XMLHttpRequest.DONE){
+						response = JSON.parse(xhr.responseText);
+						console.log(response);
+						lastTimestamp = response.lastTimestamp;
+						setTimeout(ajax, 1);
+					}
+				}
+				xhr.open('GET', '/ajax/' + lastTimestamp, true);
+				xhr.send(null);
+			}
+			ajax();
+		</script>
+	</head>
+	<body>
+		<p>Hello, world!</p>
+	</body>
+</html>
