@@ -5,7 +5,13 @@ import sys
 from .server import _Server
 from urllib import request, parse
 
-def init(port=8000, is_host=True):
+
+class _ExternalServer(object):
+
+	def __init__(self):
+
+
+def init(port=8000, is_host=None):
 
 	server = _Server(port)
 	server.start()

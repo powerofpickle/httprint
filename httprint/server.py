@@ -10,6 +10,9 @@ class _Handler(server.BaseHTTPRequestHandler):
 
 	def __init__(self, request, client_address, server):
 		super().__init__(request, client_address, server)
+
+	def do_POST(self):
+		return _main_server.post(self)
 	
 	def do_GET(self):
 		return _main_server.get(self)
@@ -66,6 +69,9 @@ class _Server(threading.Thread):
 		if handler.path.startswith('/ajax'):
 			return self.ajax(handler)
 		return self.index(handler)
+
+	def post(self, handler):
+		return
 	
 	def append(self, text, id=0):
 		self.log.append({'timestamp': time.time(), 'id': id, 'text': text})
