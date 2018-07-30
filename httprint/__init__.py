@@ -17,11 +17,17 @@ def init(port=8000, is_host=None):
 	server = _Server(port)
 	server.start()
 
-	old_write = sys.stdout.write
+	old_print = sys.stdout.write
+	old_err = sys.stderr.write
 
-	def new_write(text):
+	def new_print(text):
 		server.append(text)
-		old_write(text)
+		old_print(text)
+
+	def new_err(text):
+		server.append(text)
+		old_err(text)
 		
-	sys.stdout.write = new_write
+	sys.stdout.write = new_print
+	sys.stderr.write = new_err
 	
