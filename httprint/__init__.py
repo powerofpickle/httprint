@@ -7,8 +7,9 @@ from urllib import request, parse
 
 
 class _ExternalServer(object):
-
 	def __init__(self):
+		pass
+
 
 
 def init(port=8000, is_host=None):
