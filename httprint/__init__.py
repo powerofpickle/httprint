@@ -10,11 +10,6 @@ server = None
 class _ExternalServer(object):
 	def __init__(self):
 		pass
-<<<<<<< HEAD
-=======
-
->>>>>>> 2c42cb6fa44c09c184b2f289f894a7b20343bf03
-
 
 def init(port=8000, is_host=None, global_title='HTTPrint'):
 	global server
